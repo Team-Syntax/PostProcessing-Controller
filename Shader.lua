@@ -24,24 +24,24 @@ function Shader:new(
 	Intensity,
 	Spread
 )
-	self.BloomIntensity = BloomIntensity
-	self.BloomSize = BloomSize
-	self.BloomThreshold = BloomThreshold
-	
-	self.Brightness = Brightness
-	self.Contrast = Contrast
-	self.Saturation = Saturation
-	self.TintColor = TintColor
-	
-	self.FarIntensity = FarIntensity
-	self.FocusDistance = FocusDistance
-	self.InFocusRadius = InFocusRadius
-	self.NearIntensity = NearIntensity
-	
-	self.Intensity = Intensity
-	self.Spread = Spread
-	
-	return Shader
+	return setmetatable(
+		{
+			BloomSize = BloomSize,
+
+			Brightness = Brightness,
+			Contrast = Contrast,
+			Saturation = Saturation,
+			TintColor = TintColor,
+
+			FarIntensity = FarIntensity,
+			FocusDistance = FocusDistance,
+			InFocusRadius = InFocusRadius,
+			NearIntensity = NearIntensity,
+
+			Intensity = Intensity,
+			Spread = Spread
+		}, Shader
+	)
 end
 
 function Shader:execute()
@@ -51,14 +51,19 @@ function Shader:execute()
 	local ColorCorrection = Instance.new('ColorCorrectionEffect', game.Lighting)
 	local SunRays = Instance.new('SunRaysEffect', game.Lighting)
 	local DepthOfField = Instance.new('DepthOfFieldEffect')
+	local Blur = Instance.new('BlurEffect')
+	Blur.Parent = game.Lighting
 	
-	Bloom.Intensity = self.Intensity
+	Blur.Size = 0.4
+	
+	Bloom.Intensity = self.BloomIntensity
 	Bloom.Size = self.BloomSize
 	Bloom.Threshold = self.BloomThreshold
-	
+		
 	ColorCorrection.Brightness = self.Brightness
 	ColorCorrection.Contrast = self.Contrast
 	ColorCorrection.Saturation = self.Saturation
+	--print('shader '..TintColor)
 	ColorCorrection.TintColor = self.TintColor
 	
 	DepthOfField.FarIntensity = self.FarIntensity
@@ -66,8 +71,17 @@ function Shader:execute()
 	DepthOfField.InFocusRadius = self.InFocusRadius
 	DepthOfField.NearIntensity = self.NearIntensity
 	
-	SunRays.Intensity = self.Intensity
-	SunRays.Spread = self.Spread
+	SunRays.Intensity = 0.729
+	SunRays.Spread = 0.5
+	
+	Blur.Parent = game.Lighting
+	Bloom.Parent = game.Lighting
+	ColorCorrection.Parent = game.Lighting
+	DepthOfField.Parent = game.Lighting
+	SunRays.Parent = game.Lighting
+	
+	
+	
 	print("Shader took "..tick()-start.."ms to complete execution!")
 	debug.profileend()
 end
