@@ -3,6 +3,27 @@ local Shader = require(script.Parent.Shader)
 NinteesShader = {}
 NinteesShader.__index = NinteesShader
 
+FabulousShader = {}
+FabulousShader.__index = FabulousShader
+
+function FabulousShader.new()
+	local shader = Shader.Shader:new(
+		1,
+		24,
+		2,
+		0,
+		0,
+		0,
+		0,
+	    Color3.fromRGB(224, 255, 251),
+		0.25,
+		1
+	)
+	shader:execute()
+	
+	return shader
+end
+
 function NinteesShader.new()
 	local shader = Shader.Shader:new(
 		0.4,
@@ -20,8 +41,11 @@ function NinteesShader.new()
 		0.8
 	)
 	shader:execute()
+	
+	return shader
 end
 
 return {
-	['NinteesShader'] = NinteesShader
+	['NinteesShader'] = NinteesShader,
+	['FabulousShader'] = FabulousShader
 }
