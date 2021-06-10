@@ -1,3 +1,6 @@
-local s = require(script.Parent.Shaders)
+local start = tick()
+local Shaders = require(script.Parent.Shaders)
 
-local nShader = s.NinteesShader:new()
+local shader = Shaders.FabulousShader.new()
+
+print('[SyntaxShaders] :: Fabulous Shader executed!')
